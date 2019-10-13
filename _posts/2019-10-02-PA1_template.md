@@ -97,7 +97,7 @@ g + geom_line() +
     labs(title="Time series plot of activity during the day")
 ```
 
-![](images/PA1_template_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](/Data-Science-Portfolio/images/unnamed-chunk-6-1.png)<!-- -->
 
   
 The plot shows a high peak in the morning. Lets calculate the maximum average count of steps and the corresponding interval.  
@@ -171,7 +171,7 @@ g + geom_histogram() +
     labs(title="Histogram of sum of steps taken per day")
 ```
 
-![](images/PA1_template_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](/Data-Science-Portfolio/images/unnamed-chunk-11-1.png)<!-- -->
   
 Again we calculate the mean and the median of the steps taken per day. With these values we can see if there is a skew in the distribution, that **can** indicate a bias in the data. As mean and median are exactly the same, there is no skew in the distribution any more. So the eventual bias could be removed.  
   
@@ -223,5 +223,5 @@ g + geom_line() +
     labs(title="Time series plot of activity during the day")
 ```
 
-![](images/PA1_template_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](/Data-Science-Portfolio/images/unnamed-chunk-14-1.png)<!-- -->
 
