@@ -1,0 +1,126 @@
+---
+title: "Statistical Inference - Course Project Part 1"
+author: "Bastian Huntgeburth"
+date: "20 September 201"
+output: 
+  html_document: 
+    keep_md: yes
+    self_contained: no
+---
+
+
+
+## Central Limit Theorem with Exponential Distribution
+
+
+# Overview
+
+The ***Central Limit Theorem (CLT)*** said that the distribution of averages of iid random varianbles looks like that of a standard normal distribution as the sample size grows (properly normalization ist needed). Brian shows us the CLT with random variables from a population of an binominal distribution.
+During this course project I will show that the CLT also holds for random variabls from a population with an exponential distribution.
+
+#Simulations:
+
+Lets start with simulating several samples-sets of iid ramdom variables from an exponential distribution. I will do 1000 simulations with the following attributes.
+  
+  
+
+```r
+# Lambda as the parameter of the exponentila distribution
+lambda<- 0.2
+
+# n as the size of each sample-set
+n<-40
+
+# nosim as the count of simulations we do
+nosim<-1000
+
+# Simulating n*nosim random variables and save them 
+set.seed(60488)
+samples<-rexp(n=nosim*n, rate=lambda)
+```
+
+# Sample mean vs. theoretical mean
+Now I calculate the mean of each sample-set. After that I will calculate the average of all means.
+
+
+
+```r
+# Calculation of the mean of each sample-set by applying the mean function to each row of the matrix.
+samplemeans<-apply(matrix(samples, nosim), 1, mean)
+
+# Calculate the average of all means
+simmean<-mean(samplemeans)
+```
+
+The average of all simulated means is 5.0230035. 
+Lets compare the simulated mean with the theoretical population mean.
+
+
+```r
+# Calculate the population mean
+popmean<-1/lambda
+```
+
+The simulated mean 5.0230035 is near by the population mean 5. To get an idea about how many sample-sets are needed, I will calculate the average of the first two, first three, fist four... (and so on) means of the sample-sets and draw the result in a linechart (black line). You can see, as more means of samples-sets are taken into account, its average gets closer to the theoretical population mean (red line).
+
+
+```r
+# Calculate the average of the first two, first three, fist four... (and so on) averages
+means <- cumsum(samplemeans[1:nosim]) / (1 : nosim)
+
+library(ggplot2)
+g <- ggplot(data.frame(x = 1 : nosim, y = means), aes(x = x, y = y))
+g <- g + geom_hline(yintercept = popmean, color="red") + geom_line(size = 1, color='black')
+g <- g + labs(x = "Count of sample-sets", y = "Sample mean", title="Sample mean as a function of the number of sample-sets")
+g
+```
+
+![](/Data-Science-Portfolio/images/project122_c4-1.png)<!-- -->
+
+
+
+## Sample variance vs. theoretical variance
+
+Since the population distribution has a theoretical standard deviation of 1/lambda, we will compare it to the standard deviation of our simulation. The ***CLT*** state that the standard deviation of the mean-of-sample distribution is variance/sqrt(n) with n=samplesize (in our case 40). That means, that with a growing size of each sample-set, the variance of the mean-of-samples distribution will become smaler. So the estimator of the population mean will become better. Lets calculate the variances of the population and of our simulations. 
+
+
+```r
+sdpop<-1/lambda
+```
+
+The theoretical standard deviation of the population is 5.
+
+
+```r
+sdsimtheo<-sdpop/sqrt(n)
+```
+
+The theoretical standard deviation of our simulated means is 0.7905694.
+
+
+```r
+sdsim<-sd(samplemeans)
+```
+
+The standard deviation of our simulated means is 0.7923447. That is close to the theroretical value of 0.7905694. Again i want to highlite that this is much lower than the theoretical standard deviation of the whol population 5.
+
+
+# Distibution:
+
+At the end I will give a graphical representation of the distribution of the means of the sample-sets. To show that the distribution is approximatly normal, I also draw a additional normal distribution with the mean of simulated sample-sets and its standard deviation. Its easy to see, that both are close to each other.
+
+
+```r
+# Drawing a histogram of all means
+
+df<-data.frame(samplemeans)
+h<-ggplot(df, aes(x=df[,1])) + 
+        geom_histogram(alpha = .20, binwidth=.1,colour = "black", aes(y = ..density..)) +
+        stat_function(fun = function(x) dnorm(x, mean = simmean, sd = sdsim)) +
+        labs(x = "means of sample-sets", title="Histogram of the means of simulated sample-sets")
+h
+```
+
+![](/Data-Science-Portfolio/images/project122_c8-1.png)<!-- -->
+
+
