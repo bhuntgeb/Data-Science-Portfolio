@@ -51,7 +51,7 @@ g + geom_histogram() +
     labs(title="Histogram of sum of steps taken per day")
 ```
 
-![my first image](/images/unnamed-chunk-3-1.png)<!-- -->
+![my first image](/Data-Science-Portfolio/images/unnamed-chunk-3-1.png)<!-- -->
 
   
 Now we calculate the mean and the median of the steps taken per day. With these values we can see if there is a negativ skew (mean less than median) in the distribution, that **can** indicate a bias in the data.  
